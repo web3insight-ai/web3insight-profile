@@ -23,12 +23,7 @@ export function MintButton({ userData, className = '' }: MintButtonProps) {
     hash,
   });
 
-  // Check if user already minted
-  const { data: isAlreadyMinted, isLoading: isCheckingMinted } = useReadContract({
-    ...contractConfig,
-    functionName: 'isGithubMinted',
-    args: [userData?.login || ''],
-  });
+  // Allow multiple mints - removed isGithubMinted check
 
   // Check mint price
   const { data: currentMintPrice } = useReadContract({
@@ -170,9 +165,7 @@ export function MintButton({ userData, className = '' }: MintButtonProps) {
         metadataURI
       };
 
-      if (isAlreadyMinted) {
-        throw new Error('Profile already minted for this GitHub user');
-      }
+      // Allow multiple mints - removed already minted check
 
       // Execute mint transaction
       writeContract({
@@ -212,19 +205,7 @@ export function MintButton({ userData, className = '' }: MintButtonProps) {
     return null;
   }
 
-  // Already minted
-  if (isAlreadyMinted) {
-    return (
-      <div className="nes-window p-4 text-center">
-        <div className="nes-text text-xs text-nes-yellow mb-2">
-          ✅ NFT ALREADY MINTED FOR @{userData?.login || 'User'}
-        </div>
-        <div className="nes-btn-secondary px-4 py-2 cursor-not-allowed opacity-50">
-          ALREADY MINTED
-        </div>
-      </div>
-    );
-  }
+  // Allow multiple mints - removed already minted UI block
 
   return (
     <div className={`nes-window p-6 ${className}`}>
@@ -307,7 +288,7 @@ export function MintButton({ userData, className = '' }: MintButtonProps) {
             {/* Mint Button */}
             <button
               onClick={handleMint}
-              disabled={isMinting || isPending || isConfirming || isCheckingMinted}
+              disabled={isMinting || isPending || isConfirming}
               className={`nes-btn px-6 py-2 w-full flex items-center justify-center gap-2 ${
                 isMinting || isPending || isConfirming ? 'opacity-50 cursor-not-allowed' : ''
               }`}
