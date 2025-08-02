@@ -12,7 +12,7 @@ import { analyzeGitHubUser } from "@/lib/api/analysis";
 import type { AnalysisStatus, AnalysisResult, GitHubUser, BasicAnalysisResult, EcosystemItem } from "@/lib/types";
 
 export default function Home() {
-  const [githubHandle, setGithubHandle] = useState("pseudoyu");
+  const [githubHandle, setGithubHandle] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysisStatus, setAnalysisStatus] = useState<AnalysisStatus>("pending");
   const [progress, setProgress] = useState(0);
@@ -298,7 +298,7 @@ export default function Home() {
             <div className="absolute top-2 right-2 w-4 h-4 bg-nes-blue border border-nes-white"></div>
 
             <h1 className="profile-title mb-4">
-              🎮 WEB3 INSIGHT PROFILE 🎮
+              🎮 WEB3INSIGHT PROFILE 🎮
             </h1>
             <p className="profile-subtitle">
               ⚡ ANALYZE GITHUB PROFILES FOR WEB3 ECOSYSTEM INSIGHTS ⚡
@@ -460,7 +460,7 @@ export default function Home() {
         {/* Footer */}
         <div className="text-center mt-8 mb-4">
           <div className="nes-text text-xs text-nes-gray-light">
-            🎮 POWERED BY WEB3INSIGHT.AI 🎮
+            🎮 POWERED BY <a href="https://web3insight.ai" className="text-nes-yellow">WEB3INSIGHT.AI</a> 🎮
           </div>
         </div>
       </div>
