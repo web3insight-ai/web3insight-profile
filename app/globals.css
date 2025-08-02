@@ -1,26 +1,473 @@
-@import "tailwindcss";
+/* Import 12像素 Fusion Pixel Font and fallbacks */
+@import url("https://fonts.googleapis.com/css2?family=Press+Start+2P&family=DotGothic16&display=swap");
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fusion Pixel Font 12px Implementation - 泛中日韩像素字体 */
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("https://cdn.jsdelivr.net/gh/TakWolf/fusion-pixel-font@2025.07.30/build/fusion-pixel-12px-proportional-zh_hans.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/TakWolf/fusion-pixel-font@2025.07.30/build/fusion-pixel-12px-proportional-zh_hans.ttf")
+      format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+4E00-9FFF, U+3400-4DBF, U+20000-2A6DF; /* CJK Unified Ideographs */
+}
+
+@font-face {
+  font-family: "FusionPixel12";
+  src: url("https://cdn.jsdelivr.net/gh/TakWolf/fusion-pixel-font@2025.07.30/build/fusion-pixel-12px-proportional-latin.woff2")
+      format("woff2"),
+    url("https://cdn.jsdelivr.net/gh/TakWolf/fusion-pixel-font@2025.07.30/build/fusion-pixel-12px-proportional-latin.ttf")
+      format("truetype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215,
+    U+FEFF, U+FFFD; /* Latin Extended-A */
+}
+
+/* CSS Variables for 12像素 Fusion Pixel Font Stack */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --font-fusion-pixel: "FusionPixel12", "DotGothic16", "Press Start 2P",
+    "SimHei", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC",
+    "WenQuanYi Micro Hei", monospace;
+  --font-pixel: var(--font-fusion-pixel);
+  --font-pixel-mono: var(--font-fusion-pixel);
+  --font-pixel-large: var(--font-fusion-pixel);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Base styling for NES aesthetic with consistent CJK/Latin rendering */
+html {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-nes-black text-nes-white;
+  font-family: var(--font-fusion-pixel);
+  font-size: 12px; /* 12像素 base size */
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+  -moz-osx-font-smoothing: unset;
+}
+
+/* Disable smooth scrolling for pixel-perfect feel */
+html {
+  scroll-behavior: auto;
+}
+
+/* NES-Style Component Classes */
+
+/* NES Window/Card Style */
+.nes-window {
+  @apply bg-nes-gray-medium border-4 border-nes-white relative;
+  border-style: outset;
+  border-image: linear-gradient(
+      135deg,
+      #ffffff 0%,
+      #ffffff 25%,
+      #c0c0c0 25%,
+      #c0c0c0 50%,
+      #808080 50%,
+      #808080 75%,
+      #404040 75%,
+      #404040 100%
+    )
+    4;
+}
+
+.nes-window::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  right: -4px;
+  bottom: -4px;
+  background: #000000;
+  z-index: -1;
+}
+
+/* NES Button Styles */
+.nes-btn {
+  @apply font-pixel text-nes-white px-4 py-2 border-2 border-nes-white relative;
+  background: linear-gradient(135deg, #e22844 0%, #b91a33 100%);
+  text-shadow: 1px 1px 0px #000000;
+  cursor: pointer;
+  transition: none;
+  border-style: outset;
+}
+
+.nes-btn:hover {
+  @apply transform translate-x-px translate-y-px;
+  box-shadow: 1px 1px 0px #000000;
+}
+
+.nes-btn:active {
+  @apply transform translate-x-1 translate-y-1;
+  border-style: inset;
+  box-shadow: none;
+}
+
+.nes-btn-secondary {
+  background: linear-gradient(135deg, #0066cc 0%, #004488 100%);
+}
+
+.nes-btn-success {
+  background: linear-gradient(135deg, #00bb22 0%, #008811 100%);
+}
+
+.nes-btn-warning {
+  background: linear-gradient(135deg, #ffdd00 0%, #ccaa00 100%);
+  @apply text-nes-black;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+
+/* NES Input Field */
+.nes-input {
+  @apply bg-nes-black border-2 border-nes-gray-medium text-nes-white font-pixel px-2 py-1;
+  border-style: inset;
+  font-size: 12px;
+}
+
+.nes-input:focus {
+  @apply outline-none border-nes-white;
+  box-shadow: inset 2px 2px 0px #404040;
+}
+
+/* NES Progress Bar */
+.nes-progress {
+  @apply bg-nes-black border-2 border-nes-white relative h-6;
+  border-style: inset;
+}
+
+.nes-progress-bar {
+  @apply h-full bg-gradient-to-r from-nes-green to-nes-yellow relative;
+  background-image: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(255, 255, 255, 0.2) 2px,
+    rgba(255, 255, 255, 0.2) 4px
+  );
+}
+
+/* NES Text Styles with 12像素 Fusion Pixel Font */
+.nes-title {
+  font-family: var(--font-fusion-pixel);
+  @apply text-nes-yellow mb-4;
+  font-size: 16px; /* 12px * 1.33 for titles */
+  text-shadow: 2px 2px 0px #000000;
+  letter-spacing: 0.5px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.nes-subtitle {
+  font-family: var(--font-fusion-pixel);
+  @apply text-nes-white mb-2;
+  font-size: 14px; /* 12px * 1.17 for subtitles */
+  text-shadow: 1px 1px 0px #000000;
+  letter-spacing: 0.3px;
+  line-height: 1.6;
+  font-weight: 400;
+}
+
+.nes-text {
+  font-family: var(--font-fusion-pixel);
+  @apply text-nes-white;
+  font-size: 12px; /* Base 12像素 size */
+  text-shadow: 1px 1px 0px #000000;
+  line-height: 1.8;
+  letter-spacing: 0.2px;
+  word-spacing: 0.3px;
+  font-weight: 400;
+}
+
+/* Optimized styling for mixed Chinese/English content */
+.nes-text.chinese-content {
+  font-family: var(--font-fusion-pixel);
+  font-size: 12px; /* Consistent 12像素 */
+  line-height: 2;
+  letter-spacing: 0.2px;
+  word-spacing: 0.5px;
+  font-weight: 400;
+  text-rendering: optimizeSpeed;
+  -webkit-font-smoothing: none;
+}
+
+/* NES Badge/Chip with 12像素 font */
+.nes-badge {
+  font-family: var(--font-fusion-pixel);
+  font-size: 12px; /* 12像素 size */
+  @apply px-2 py-1 border-2 border-nes-white inline-block;
+  background: linear-gradient(135deg, #8833ff 0%, #6622cc 100%);
+  text-shadow: 1px 1px 0px #000000;
+  border-style: outset;
+  font-weight: 400;
+  letter-spacing: 0.2px;
+}
+
+.nes-badge-red {
+  background: linear-gradient(135deg, #e22844 0%, #b91a33 100%);
+}
+
+.nes-badge-blue {
+  background: linear-gradient(135deg, #0066cc 0%, #004488 100%);
+}
+
+.nes-badge-green {
+  background: linear-gradient(135deg, #00bb22 0%, #008811 100%);
+}
+
+.nes-badge-yellow {
+  background: linear-gradient(135deg, #ffdd00 0%, #ccaa00 100%);
+  @apply text-nes-black;
+  text-shadow: 1px 1px 0px #ffffff;
+}
+
+.nes-badge-purple {
+  background: linear-gradient(135deg, #8833ff 0%, #6622cc 100%);
+}
+
+.nes-badge-orange {
+  background: linear-gradient(135deg, #ff8833 0%, #cc6622 100%);
+}
+
+/* NES Avatar/Image */
+.nes-avatar {
+  @apply border-4 border-nes-white;
+  border-style: outset;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+/* NES Container */
+.nes-container {
+  @apply bg-nes-gray-dark border-2 border-nes-gray-medium p-4 relative;
+  border-style: inset;
+}
+
+.nes-container::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: #000000;
+  z-index: -1;
+}
+
+/* Layout Classes */
+.profile-header {
+  @apply text-center mb-8 py-8 bg-nes-black;
+  background-image: radial-gradient(
+      circle at 50% 50%,
+      #e22844 2px,
+      transparent 2px
+    ),
+    radial-gradient(circle at 25% 25%, #0066cc 1px, transparent 1px),
+    radial-gradient(circle at 75% 75%, #ffdd00 1px, transparent 1px);
+  background-size: 40px 40px, 20px 20px, 30px 30px;
+  background-position: 0 0, 10px 10px, 20px 20px;
+}
+
+.profile-title {
+  @apply font-pixel text-4xl md:text-6xl text-nes-yellow mb-4;
+  text-shadow: 3px 3px 0px #000000, -1px -1px 0px #aa1122;
+  letter-spacing: 4px;
+  animation: pixelGlow 2s ease-in-out infinite alternate;
+}
+
+.profile-subtitle {
+  @apply font-pixel text-lg text-nes-white max-w-2xl mx-auto;
+  text-shadow: 2px 2px 0px #000000;
+  letter-spacing: 1px;
+}
+
+.input-section {
+  @apply mb-8;
+}
+
+.analysis-section {
+  @apply space-y-6;
+}
+
+/* NES-style loading animation */
+.nes-loading {
+  @apply inline-block w-4 h-4 border-2 border-nes-white;
+  border-top-color: transparent;
+  border-radius: 0;
+  animation: nesRotate 1s linear infinite;
+}
+
+/* Animations */
+@keyframes pixelGlow {
+  0% {
+    text-shadow: 3px 3px 0px #000000, -1px -1px 0px #aa1122;
+    color: #ffdd00;
+  }
+  100% {
+    text-shadow: 3px 3px 0px #000000, -1px -1px 0px #cc4444;
+    color: #ffff44;
+  }
+}
+
+@keyframes nesRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pixelShimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .pixel-perfect {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  .nes-shadow {
+    box-shadow: 4px 4px 0px #000000;
+  }
+
+  .nes-shadow-sm {
+    box-shadow: 2px 2px 0px #000000;
+  }
+
+  .nes-shadow-inset {
+    box-shadow: inset 2px 2px 0px #ffffff, inset -2px -2px 0px #808080;
+  }
+
+  .nes-border {
+    border: 2px solid #ffffff;
+    border-style: outset;
+  }
+
+  .nes-border-inset {
+    border: 2px solid #ffffff;
+    border-style: inset;
+  }
+
+  .text-pixel-glow {
+    text-shadow: 1px 1px 0px #000000, 2px 2px 0px #404040;
+  }
+
+  .bg-nes-pattern {
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 2px,
+      rgba(255, 255, 255, 0.1) 2px,
+      rgba(255, 255, 255, 0.1) 4px
+    );
+  }
+}
+
+/* Override NextUI styles for NES theme */
+.nextui-input input {
+  font-family: var(--font-pixel) !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px !important;
+}
+
+.nextui-button {
+  font-family: var(--font-pixel) !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px !important;
+  border-radius: 0 !important;
+}
+
+.nextui-card {
+  border-radius: 0 !important;
+  box-shadow: 4px 4px 0px #000000 !important;
+}
+
+.nextui-progress {
+  border-radius: 0 !important;
+}
+
+.nextui-chip {
+  border-radius: 0 !important;
+  font-family: var(--font-pixel) !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.2px !important;
+}
+
+/* Ensure consistent font rendering for all elements */
+button,
+input,
+select,
+textarea,
+.nes-btn,
+.nes-input,
+.nes-title,
+.nes-subtitle,
+.nes-text {
+  font-synthesis: none !important;
+  text-rendering: optimizeSpeed !important;
+  -webkit-font-feature-settings: normal !important;
+  font-feature-settings: normal !important;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 16px;
+  height: 16px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-nes-gray-dark border-2 border-nes-gray-medium;
+  border-style: inset;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-nes-gray-light border-2 border-nes-white;
+  border-style: outset;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-nes-white;
+}
+
+::-webkit-scrollbar-corner {
+  @apply bg-nes-gray-dark;
 }
