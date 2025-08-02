@@ -327,7 +327,15 @@ export function MintButton({ userData, className = '' }: MintButtonProps) {
             {/* Status Messages */}
             {hash && (
               <div className="nes-text text-xs text-nes-blue">
-                📝 TX HASH: {hash.slice(0, 10)}...{hash.slice(-8)}
+                📝 TX HASH: 
+                <a 
+                  href={`https://testnet.monadexplorer.com/tx/${hash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-nes-blue-light ml-1"
+                >
+                  {hash.slice(0, 10)}...{hash.slice(-8)}
+                </a>
               </div>
             )}
 
