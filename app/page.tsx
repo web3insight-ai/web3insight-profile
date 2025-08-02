@@ -8,6 +8,7 @@ import {
 import { Search, User, ExternalLink, Calendar, MapPin, Building, Globe, Star, Zap } from "lucide-react";
 import { AnalysisProgress } from "@/components/ui/analysis-progress";
 import { AIProfileDisplay } from "@/components/ui/ai-profile";
+import { MintButton } from "@/components/ui/mint-button";
 import { analyzeGitHubUser } from "@/lib/api/analysis";
 import type { AnalysisStatus, AnalysisResult, GitHubUser, BasicAnalysisResult, EcosystemItem } from "@/lib/types";
 
@@ -422,6 +423,9 @@ export default function Home() {
                   </div>
 
                   <AIProfileDisplay aiProfile={user.ai} />
+
+                  {/* Mint Button */}
+                  <MintButton userData={user} className="mt-6" />
                 </div>
               );
             })}
